@@ -1,17 +1,9 @@
-import { Link } from "expo-router";
-import { FlatList, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { View, Text, Image } from "react-native";
+import React from "react";
+import { Link, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FloralCard from "../../components/FloralCard"
-import { useState } from "react";
+import FloralCard from "../../components/FloralCard";
 
-const CATEGORIES = [
-  { id: "1", name: "Australia" },
-  { id: "2", name: "Amerika" },
-  { id: "3", name: "Europe" },
-  { id: "4", name: "Germany" },
-  { id: "5", name: "Indonesia" },
-  { id: "6", name: "Russian" },
-];
 const DATA = [
   {
     id: "1",
@@ -47,7 +39,7 @@ const DATA = [
     poster:
       "https://cdn.idntimes.com/content-images/community/2023/10/52723330443-910c6cfcd4-k-f6bd496100cb99fc851010642cf3010f-e639e11fdd3e0f266f04b2449a2cafcf.jpg",
     description:
-      "Chamelaucium, yang juga dikenal sebagai Waxflower, adalah jenis tanaman berbunga yang berasal dari Australia. Tanaman ini terkenal karena bunga-bunganya yang kecil, berwarna cerah, dan aromatik, serta daunnya yang sempit dan berwarna hijau gelap. Chamelaucium sering digunakan dalam rangkaian bunga dan sebagai tanaman hias karena daya tarik visualnya.",
+      "Chamelaucium, yang juga dikenal sebagai Waxflower, adalah genus tanaman berbunga yang berasal dari Australia. Tanaman ini terkenal karena bunga-bunganya yang kecil, berwarna cerah, dan aromatik, serta daunnya yang sempit dan berwarna hijau gelap. Chamelaucium sering digunakan dalam rangkaian bunga dan sebagai tanaman hias karena daya tarik visualnya.",
   },
   {
     id: "5",
@@ -195,48 +187,34 @@ const DATA = [
   },
 ];
 
-export default function HomeScreen() {
-  const [floral, setfloral] = useState(DATA);
-  const filterFloral = (categoryId) => {
-    const filteredFloral = DATA.filter(function
-      (item) {
-      return item.category_id === categoryId;
-    });
-    setfloral(filteredFloral);
+const FloralDetail = () => {
+  const { floral } = useLocalSearchParams();
+  const selectedFloral = DATA.filter((item) => item.id === floral);
+
+  // Check if selectedFloral has an item
+  if (selectedFloral.length === 0) {
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>No floral item found.</Text>
+      </SafeAreaView>
+    );
   }
+
+  const floralItem = selectedFloral[0];
 
   return (
     <SafeAreaView
-    className= "p-4"
+      style={{
+        backgroundColor: "white",
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
-      <Text style={styles.title}>Flower Categories</Text>
-      <FlatList 
-      data={CATEGORIES}
-      horizontal 
-      renderItem={({ item }) => (
-        <Pressable onPress={() => filterFloral(item.id)}>
-      <Text className="m-1 border p-2 rounded">{item.name}</Text>
-      </Pressable>
-  )}
-      className="space-x-4"
-      showsHorizontalScrollIndicator={false}
-      keyExtractor={(item) => item.id}
-      />
-      <FlatList
-        data={floral}
-        numColumns={2}
-        renderItem={({ item }) => <FloralCard item={item} />}
-        keyExtractor={(item) => item.id}
-      />
+      <FloralCard item={floralItem} />
+      <Text style={{ margin: 20, textAlign: 'center' }}>{floralItem.description}</Text>
     </SafeAreaView>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-});
+export default FloralDetail;
