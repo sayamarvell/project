@@ -212,7 +212,7 @@ export default function HomeScreen() {
       <Text style={styles.title}>Flower Categories</Text>
       <FlatList 
       data={CATEGORIES}
-      horizontal 
+      horizontal
       renderItem={({ item }) => (
         <Pressable onPress={() => filterFloral(item.id)}>
       <Text className="m-1 border p-2 rounded">{item.name}</Text>
