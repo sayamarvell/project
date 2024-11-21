@@ -4,22 +4,22 @@ import { Collapsible } from '@/components/Collapsible';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 
 export default function ProfileScreen() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
       headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-        ></IconSymbol>
+        <Image
+          source={require('@/assets/images/2284999.png')} // Ganti dengan path gambar Anda
+          style={styles.headerImage}
+          resizeMode="cover" // Mengatur mode resize gambar
+        />
       }>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Profil Saya</ThemedText>
       </ThemedView>
-      <ThemedText>Selamat datang di profil saya!</ThemedText>
+      <ThemedText>Selamat datang di profilku!!!</ThemedText>
       
       <Collapsible title="Tentang Saya">
         <ThemedText>
@@ -55,5 +55,9 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'row',
     gap: 8,
+  },
+  headerImage: {
+    width: '100%', // Mengatur lebar gambar
+    height: 310, // Mengatur tinggi gambar sesuai dengan ukuran yang diinginkan
   },
 });
